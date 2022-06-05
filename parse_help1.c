@@ -176,4 +176,5 @@ void	get_cmd_arguments(char *str, t_cmds *cmd)
 	if (!arg)
 		error("Error (list cmd)\n");
 	ft_lstadd_back(&cmd->args, arg);
+	// printf("(%s)\n", cmd->args->content);
 }

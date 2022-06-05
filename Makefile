@@ -19,7 +19,7 @@ FLAGS	=	-Wall -Werror -Wextra #-g -fsanitize=address
 
 RM		=	rm -f
 
-%.o: %.c ./includes/minishell.h
+%.o: %.c minishell.h
 	$(GCC) $(FLAGS) -I$(HEADS) -c $< -o $@ 
 
 $(NAME): $(OBJS) ./libft/libft.h

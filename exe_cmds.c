@@ -12,6 +12,7 @@ int	get_num_of_commands(t_cmds **commands)
 
 int	is_built_in(char *command)
 {
+	// printf("%s\n", command);
 	if (ft_strncmp(command, "pwd", 4) == 0)
 		return (1);
 	else if (ft_strncmp(command, "env", 4) == 0)
@@ -145,6 +146,7 @@ void	execute_cmds(t_cmds **cmds, t_shell **shell, char **envp, char *line)
 {
 	int	in;
 	int	out;
+	envp = NULL;
 
 	(*shell)->cmd_index = get_num_of_commands(cmds);
 	if ((*shell)->cmd_index > 1)
@@ -155,11 +157,12 @@ void	execute_cmds(t_cmds **cmds, t_shell **shell, char **envp, char *line)
 		out = dup(STDOUT_FILENO);
 		if (is_built_in(cmds[0]->args->content) && !cmds[1])
 		{
-            printf("aaaa\n");
+            // printf("aaaa\n");
 			handle_redirects(cmds[0], shell, in);
 			built_ins(&(cmds[0]->envs), cmds[0], shell, envp);
 		}
-		// else
+		else
+			printf("bbbb\n");
 		// 	execute_bin(cmds, shell, envp, in);
 		dup2(in, STDIN_FILENO);
 		dup2(out, STDOUT_FILENO);

@@ -21,6 +21,7 @@ int get_count_cmds(char *str)
 	int flag;
 
 	i = 0;
+	count = 1;
 	ft_bzero(quotes, sizeof(int) * 2);
 	while (str && str[i])
 	{
@@ -112,7 +113,7 @@ void	set_redirs_to_cmd(t_cmds *cmd, char *str)
 		}
 		// i[0]++;
 	}
-	// cmd->redirs[i[3]] = NULL; /////////?????????????????????
+	// cmd->redirs[i[3]] = NULL;
 }
 
 t_cmds	*set_cmd(char *str, t_envlist *envlist, t_shell *shell)
@@ -127,13 +128,16 @@ t_cmds	*set_cmd(char *str, t_envlist *envlist, t_shell *shell)
 	ft_bzero(cmd, sizeof(t_cmds));
 	cmd->envs = envlist;
 	cmd->shell = shell;
+	// printf("=%s=\n", str);
 	set_redirs_to_cmd(cmd, str);
 	str = del_redirects(str);
+	// printf("=%s=\n", str);
 	str = del_spaces(str);
+	// printf("=%s=\n", str);
 	get_cmd_arguments(str, cmd);
 	// printf("[[%s\n", cmd->redirs[0]->word);
 	cmd = get_cmd_two(&cmd);
-
+	return (cmd);
 }
 
 t_cmds  **parser(char *str, t_envlist *envlist, t_shell *shell)
@@ -148,7 +152,7 @@ t_cmds  **parser(char *str, t_envlist *envlist, t_shell *shell)
 	if (!count_cmds)
 	{
 		shell->exit_status = 2;
-		ft_putstr_fd("error of cmds\n", 2);
+		ft_putstr_fd("error of cmdsss\n", 2);
 		return (NULL);
 	}
 	cmds = (t_cmds **)malloc(sizeof(t_cmds *) * (count_cmds + 1));
@@ -161,6 +165,7 @@ t_cmds  **parser(char *str, t_envlist *envlist, t_shell *shell)
 		{
 			pow = ft_substr(str, i[4], i[0] - i[4]);
 			cmds[i[3]++] = set_cmd(pow, envlist, shell);
+			// printf("%s\n", cmds[i[3]]->redirs[0]->word);
 			if (!cmds[i[3] - 1])
 				printf("сделать отчистку cmds\n");
 			i[4] = i[0] + 1;
@@ -171,5 +176,6 @@ t_cmds  **parser(char *str, t_envlist *envlist, t_shell *shell)
 	if (!cmds[i[3] - 1])
 		printf("сделать отчистку cmds\n");
 	// cmds[i[3]] = NULL;
+	// printf("%s\n", cmds[i[3]]->args->content);
 	return (cmds);
 }

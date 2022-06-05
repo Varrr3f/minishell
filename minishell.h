@@ -72,7 +72,7 @@ int	get_type_of_redir(char *str, int *i);
 char *get_word_of_redir(char *str, int i[5]);
 
 char	*del_redirects(char *str);
-static void	ft_go_through_redirects(char *str, int i[5]);
+// void	go_through_redirects(char *str, int i[5]);
 char	*del_spaces(char *str);
 void	get_cmd_arguments(char *str, t_cmds *cmd);
 t_cmds	*get_cmd_two(t_cmds **cmd);
