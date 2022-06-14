@@ -12,7 +12,7 @@ void	handle_empty_input(t_envlist *list, t_shell **shell)
 	char		*root_path;
 	int			status;
 
-	root_path = find_env_node(list, "HOME");
+	root_path = find_env(list, "HOME");
 	status = chdir(root_path);
 	if (status == -1)
 		handle_unset_home(shell);
@@ -26,11 +26,66 @@ void	handle_non_existing_path(t_list *args, t_shell **shell)
 	(*shell)->exit_status = 1;
 }
 
+void	ft_envar_del_one(t_envlist **vars, char *key)
+{
+	t_envlist	*curr;
+	t_envlist	*prev;
+	t_envlist	*next;
+
+	if (!vars || !key)
+		return ;
+	curr = *vars;
+	while (curr)
+	{
+		if (ft_strncmp(curr->key, key, ft_strlen(curr->key)) == 0)
+		{
+			next = curr->next;
+			prev->next = next;
+			free(curr);
+			return ;
+		}
+		prev = curr;
+		curr = curr->next;
+	}
+}
+
+void	ft_envar_add_back(t_envlist **vars, t_envlist *new_var)
+{
+	t_envlist	*copy;
+
+	copy = *vars;
+	if (!(*vars))
+	{
+		new_var->next = *vars;
+		*vars = new_var;
+	}
+	else
+	{
+		while (copy->next)
+			copy = copy->next;
+		copy->next = new_var;
+		new_var->next = NULL;
+	}
+}
+
+t_envlist	*ft_envar_new(char *key, char *value)
+{
+	t_envlist	*var;
+
+	var = (t_envlist *)malloc(sizeof(t_envlist));
+	if (!var)
+		return (NULL);
+	var->key = key;
+	var->value = value;
+	var->next = NULL;
+	return (var);
+}
+
 void	change_old_pwd_environ(t_envlist **list, char *old_path)
 {
 	t_envlist	*old_pwd_node;
 
-	old_pwd_node = ft_envar_new("OLD_PWD", ft_strdup(old_path));
+	old_pwd_node = set_first_key_value("OLD_PWD", ft_strdup(old_path));
 	if (!old_pwd_node)
 		error("Malloc Error\n");
 	ft_envar_del_one(list, "OLD_PWD");
@@ -40,9 +95,9 @@ void	change_old_pwd_environ(t_envlist **list, char *old_path)
 void	change_new_pwd_environ(t_envlist **list, char *new_path)
 {
 	t_envlist	*new_pwd_node;
-	t_envlist	*tmp;
+	// t_envlist	*tmp;
 
-	tmp = *list;
+	// tmp = *list;
 	new_pwd_node = ft_envar_new("PWD", ft_strdup(new_path));
 	if (!new_pwd_node)
 		error("Malloc Error\n");
@@ -59,7 +114,7 @@ void	handle_cd_arguments(t_list *args, t_shell **shell, t_envlist *list)
 	if (args->next && !ft_strncmp(args->next->content, "-", 1)
 		&& ft_strlen(args->next->content) == 1)
 	{
-		if (find_env_node(list, "OLD_PWD") == NULL)
+		if (find_env(list, "OLD_PWD") == NULL)
 		{
 			write(STDERR_FILENO, "bash: cd: OLDPWD not set\n", 25);
 			(*shell)->exit_status = 1;
@@ -67,7 +122,7 @@ void	handle_cd_arguments(t_list *args, t_shell **shell, t_envlist *list)
 		}
 		else
 		{
-			status = chdir(find_env_node(list, "OLD_PWD"));
+			status = chdir(find_env(list, "OLD_PWD"));
 			getcwd(tmp_path, 4096);
 			write(STDOUT_FILENO, tmp_path, ft_strlen(tmp_path) + 1);
 			write(1, "\n", 1);
@@ -79,14 +134,14 @@ void	handle_cd_arguments(t_list *args, t_shell **shell, t_envlist *list)
 		handle_non_existing_path(args, shell);
 }
 
-void	execute_cd(t_envlist **list, t_list *args, t_shell **shell)
+void	cd_ms(t_envlist **list, t_list *args, t_shell **shell)
 {
-	int		status;
+	// int		status;
 	char	old_path[4096];
 	char	new_path[4096];
 
 	(*shell)->exit_status = 0;
-	status = 0;
+	// status = 0;
 	getcwd(old_path, 4096);
 	if (args->next == NULL)
 		handle_empty_input(*list, shell);

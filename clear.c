@@ -14,19 +14,19 @@ void	ft_free_command_redirects(t_cmds *command)
 		free(command->redirs);
 }
 
-int	ft_array_clear(char ***array)
-{
-	int	i;
+// int	ft_array_clear(char ***array)
+// {
+// 	int	i;
 
-	i = -1;
-	if (!*array)
-		return (1);
-	while ((*array)[++i])
-		free((*array)[i]);
-	free(*array);
-	*array = NULL;
-	return (1);
-}
+// 	i = -1;
+// 	if (!*array)
+// 		return (1);
+// 	while ((*array)[++i])
+// 		free((*array)[i]);
+// 	free(*array);
+// 	*array = NULL;
+// 	return (1);
+// }
 
 void	commands_clear(t_cmds ***commands)
 {

@@ -1,54 +1,54 @@
 #include "minishell.h"
 
-int	get_num_of_commands(t_cmds **commands)
+int	get_num_of_commands(t_cmds **cmds)
 {
 	int	i;
 
 	i = 0;
-	while (commands && commands[i])
+	while (cmds && cmds[i])
 		i++;
 	return (i);
 }
 
-int	is_built_in(char *command)
+int	is_built_in(char *cmd)
 {
-	// printf("%s\n", command);
-	if (ft_strncmp(command, "pwd", 4) == 0)
+	// printf("%s\n", cmd);
+	if (ft_strncmp(cmd, "pwd", 4) == 0)
 		return (1);
-	else if (ft_strncmp(command, "env", 4) == 0)
+	else if (ft_strncmp(cmd, "env", 4) == 0)
 		return (1);
-	else if (ft_strncmp(command, "unset", 6) == 0)
+	else if (ft_strncmp(cmd, "unset", 6) == 0)
 		return (1);
-	else if (ft_strncmp(command, "exit", 5) == 0)
+	else if (ft_strncmp(cmd, "exit", 5) == 0)
 		return (1);
-	else if (ft_strncmp(command, "cd", 3) == 0)
+	else if (ft_strncmp(cmd, "cd", 3) == 0)
 		return (1);
-	else if (ft_strncmp(command, "echo", 5) == 0)
+	else if (ft_strncmp(cmd, "echo", 5) == 0)
 		return (1);
-	else if (ft_strncmp(command, "export", 7) == 0)
+	else if (ft_strncmp(cmd, "export", 7) == 0)
 		return (1);
 	return (0);
 }
 
-void	built_ins(t_envlist **list, t_cmds *commands, t_shell **shell, char **envp)
+void	built_ins(t_envlist **list, t_cmds *cmds, t_shell **shell, char **envp)
 {
 	(void)envp;
-	if (!commands->args)
+	if (!cmds->args)
 		return ;
-	if (ft_strncmp(commands->args->content, "pwd", 4) == 0)
-		pwd_ms(shell, commands->args, *list);
-    else if (ft_strncmp(commands->args->content, "echo", 5) == 0)
-		echo_ms(commands->args, shell);
-	// else if (ft_strncmp(commands->args->content, "env", 4) == 0)
-	// 	env_ms(*list, shell);
-    // else if (ft_strncmp(commands->args->content, "exit", 5) == 0)
-	// 	exit_ms(shell, commands->args);
-	// else if (ft_strncmp(commands->args->content, "unset", 6) == 0)
-	// 	unset_ms(list, commands->args, shell);
-	// else if (ft_strncmp(commands->args->content, "cd", 3) == 0)
-	// 	cd_ms(list, commands->args, shell);
-	// else if (ft_strncmp(commands->args->content, "export", 7) == 0)
-	// 	export_ms(list, commands->args, shell);
+	if (ft_strncmp(cmds->args->content, "pwd", 4) == 0)
+		pwd_ms(shell, cmds->args, *list);
+    else if (ft_strncmp(cmds->args->content, "echo", 5) == 0)
+		echo_ms(cmds->args, shell);
+	else if (ft_strncmp(cmds->args->content, "cd", 3) == 0)
+		cd_ms(list, cmds->args, shell);
+	else if (ft_strncmp(cmds->args->content, "env", 4) == 0)
+		env_ms(*list, shell);
+    else if (ft_strncmp(cmds->args->content, "exit", 5) == 0)
+		exit_ms(shell, cmds->args);
+	else if (ft_strncmp(cmds->args->content, "unset", 6) == 0)
+		unset_ms(list, cmds->args, shell);
+	else if (ft_strncmp(cmds->args->content, "export", 7) == 0)
+		export_ms(list, cmds->args, shell);
 }
 
 void	here_doc(char *del, t_shell **shell, int in)
@@ -129,14 +129,14 @@ void	open_files(t_redirs *elem, t_shell **shell, int in)
 	}
 }
 
-int	handle_redirects(t_cmds *command, t_shell **shell, int in)
+int	handle_redirects(t_cmds *cmd, t_shell **shell, int in)
 {
 	int	i;
 
 	i = 0;
-	while (command->redirs && command->redirs[i])
+	while (cmd->redirs && cmd->redirs[i])
 	{
-		open_files(command->redirs[i], shell, in);
+		open_files(cmd->redirs[i], shell, in);
 		i++;
 	}
 	return (0);
