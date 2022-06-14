@@ -46,7 +46,7 @@ int	main(int argc, char **argv, char **envp)
 		// printf("%s\n", str);
 		// shell->cmd_index = get_num_of_commands(cmds);
 		execute_cmds(cmds, &shell, envp, str);
-		//commands_clear(&cmds);
+		// commands_clear(&cmds);
 		free(str);
 	}
 	return (0);

@@ -18,6 +18,7 @@ void	open_pipes(int **pipes, int cmnds)
 	int	i;
 
 	i = 0;
+	printf("index: %d\n", cmnds);
 	while (i < cmnds - 1)
 	{
 		if (pipe(pipes[i]) == -1)

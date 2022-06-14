@@ -151,6 +151,10 @@ void	execute_cmds(t_cmds **cmds, t_shell **shell, char **envp, char *line)
 	(*shell)->cmd_index = get_num_of_commands(cmds);
 	if ((*shell)->cmd_index > 1)
 		(*shell)->pipes = pipes_loop((*shell)->cmd_index);
+	// printf("pipes: %d\n", (*shell)->pipes[0][0]);
+	// printf("pipes: %d\n", (*shell)->pipes[0][1]);
+	// printf("pipes: %d\n", (*shell)->pipes[1][0]);
+	// printf("pipes: %d\n", (*shell)->pipes[1][1]);
 	if (*line != '\0')
 	{
 		in = dup(STDIN_FILENO);
@@ -162,8 +166,10 @@ void	execute_cmds(t_cmds **cmds, t_shell **shell, char **envp, char *line)
 			built_ins(&(cmds[0]->envs), cmds[0], shell, envp);
 		}
 		else
-			printf("bbbb\n");
-		// 	execute_bin(cmds, shell, envp, in);
+		{
+			// printf("bbbb\n");
+			execute_bin(cmds, shell, envp, in);
+		}
 		dup2(in, STDIN_FILENO);
 		dup2(out, STDOUT_FILENO);
 	}

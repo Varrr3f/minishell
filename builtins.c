@@ -1,5 +1,18 @@
 #include "minishell.h"
 
+void	env_ms(t_envlist *list, t_shell **shell)
+{
+	(*shell)->exit_status = 0;
+	while (list)
+	{
+		write(STDOUT_FILENO, list->key, ft_strlen(list->key));
+		write(STDOUT_FILENO, "=", 1);
+		write(STDOUT_FILENO, list->value, ft_strlen(list->value));
+		write(STDOUT_FILENO, "\n", 1);
+		list = list->next;
+	}
+}
+
 char	*find_env(t_envlist *list, const char *key)
 {
 	t_envlist	*tmp;
@@ -11,8 +24,8 @@ char	*find_env(t_envlist *list, const char *key)
 		return (NULL);
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0
-			&& ft_strlen(tmp->key) == ft_strlen(key))
+		if (ft_strncmp(tmp->key, key, ft_strlen((char *)key)) == 0
+			&& ft_strlen(tmp->key) == ft_strlen((char *)key))
 			value = tmp->value;
 		tmp = tmp->next;
 	}

@@ -1,5 +1,6 @@
 SRCS	=	minishell.c envp_utils.c parser.c signals.c parse_help.c\
-			parse_help1.c parse_help2.c exe_cmds.c pipes.c builtins.c
+			parse_help1.c parse_help2.c exe_cmds.c pipes.c builtins.c\
+			exe_cmds1.c clear.c builtins1.c
 
 OBJS	=	$(SRCS:.c=.o)
 
