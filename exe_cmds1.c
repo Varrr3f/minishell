@@ -184,8 +184,8 @@ void	launch_command(t_cmds *cmd, char **envp, t_shell **shell)
 
 	path = NULL;
 	cmd_args = get_command_arguments(cmd->args);
-    printf("%s\n", cmd_args[0]);
-    printf("%s\n", cmd_args[1]);
+    // printf("%s\n", cmd_args[0]);
+    // printf("%s\n", cmd_args[1]);
     // printf("%s\n", cmd_args[2]);
     // printf("%s\n", cmd_args[3]);
 	if (!cmd_args)

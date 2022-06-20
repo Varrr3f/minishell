@@ -113,7 +113,7 @@ void	set_redirs_to_cmd(t_cmds *cmd, char *str)
 		}
 		// i[0]++;
 	}
-	// cmd->redirs[i[3]] = NULL;
+	cmd->redirs[i[3]] = NULL;
 }
 
 t_cmds	*set_cmd(char *str, t_envlist *envlist, t_shell *shell)
@@ -166,16 +166,16 @@ t_cmds  **parser(char *str, t_envlist *envlist, t_shell *shell)
 			pow = ft_substr(str, i[4], i[0] - i[4]);
 			cmds[i[3]++] = set_cmd(pow, envlist, shell);
 			// printf("%s\n", cmds[i[3]]->redirs[0]->word);
-			if (!cmds[i[3] - 1])
-				commands_clear(&cmds);
+			// if (!cmds[i[3] - 1])
+			// 	commands_clear(&cmds);
 			i[4] = i[0] + 1;
 		}
 		i[0]++;
 	}
 	cmds[i[3]++] = set_cmd(ft_substr(str, i[4], i[0] - i[4]), envlist, shell);
-	if (!cmds[i[3] - 1])
-		commands_clear(&cmds);
-	// cmds[i[3]] = NULL;
+	// if (!cmds[i[3] - 1])
+	// 	commands_clear(&cmds);
+	cmds[i[3]] = NULL;
 	// printf("%s\n", cmds[i[3]]->args->content);
 	return (cmds);
 }

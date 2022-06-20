@@ -40,13 +40,18 @@ int	main(int argc, char **argv, char **envp)
 		if (str && *str && *str != ' ')
 			add_history(str);
 		cmds = parser(str, envlist, shell);
-		// printf("(%s)\n", cmds[0]->args->content);
-		// printf("(%s)\n", cmds[0]->redirs[0]->word);
-		// printf("(%s)\n", cmds[1]->args->content);
-		// printf("%s\n", str);
-		// shell->cmd_index = get_num_of_commands(cmds);
+		shell->cmd_index = get_num_of_commands(cmds);
+		// printf("num of cmds: %d\n", shell->cmd_index);
+
+		// printf("content of 0 cmd: %s\n", cmds[0]->args->content);
+		// printf("next content of 0 cmd: %s\n", cmds[0]->args->next->content);
+		// printf("content of 1 cmd: %s\n", cmds[1]->args->content);
+		// printf("next content of 1 cmd: %s\n", cmds[1]->args->next->content);
+		// printf("pipe: %d\n", cmds[0]->shell->pipes[0][0]);
+		// printf("redirect to: %s\n", cmds[0]->redirs[0]->word);
+
 		execute_cmds(cmds, &shell, envp, str);
-		commands_clear(&cmds);
+		// commands_clear(&cmds);
 		free(str);
 	}
 	return (0);

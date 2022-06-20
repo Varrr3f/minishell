@@ -71,7 +71,14 @@ int	echo_help(t_list *curr)
 	{
 		if (curr && curr->content && (((char *)curr->content)[0]) && i++)
 			write(STDOUT_FILENO, " ", 1);
-		write(STDOUT_FILENO, curr->content, ft_strlen(curr->content));
+		if ((((char *)curr->content)[0]) == '$')
+		{
+			write(STDOUT_FILENO, curr->next->content, (int)ft_strlen(curr->content));
+			break;
+		}
+		// printf("content: %s\n", curr->content);
+		// printf("len: %d\n", (int)ft_strlen(curr->content));
+		write(STDOUT_FILENO, curr->content, (int)ft_strlen(curr->content));
 		curr = curr->next;
 	}
 	return (flag);
